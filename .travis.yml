@@ -13,6 +13,7 @@ deploy:
   provider: releases
   api_key:
     secure: JBq+WdVN+Za7CyySg36yzfMVz8eQOdAp6ImmHptDq7cbz7hVsHlc/MAKKJxLGdik9g9HdWEbwZUH3Wr7RS3w2HqqHsYUAmSnahunC7D27A34bxc8OcARqwcsZQOChaQpEGZXpnZ4KObNupoGD+vXmMdWO1rhgoEiDL3i8mYu5un8dxru+9tQWRqKj0pbOpfoi9C3xC6ZMb7jTaQKN+o9EBbvqbu0jQU4A0yeh70td68DkNTnn7ct6RO/7EXTq5fyzh6VqLheVOMwNaedBfCDlSV6rK/7V/hXnO1HHIzLPtVEfb3UIycztWJnFxZn5aFLbfmrbJzT+AAaUozpz0CXLrmltQzbNd6TN/tmDotyJTJkxKp6B8MW7xWDQe48h9DFnINU7FVfLVtcJgM7NLiXCM4USFf/cqF3lp1TkcJ0rM8YAFhYS0Dto/7JroD29qt+eSzHLvWhe9o9ycbO8pVST7DTK33VmYEzrVAyCSAL1uyxLVOU+kN9rX1mCM6hZz7vcut2z93cZ53th+gA0h+NWd7YNQU9YaNez50JAF1ioEEe03MA+QrxeN9viBw6Bw/dmYHEDkUYqhywhfy3c6CrVP4nU44b6/kENcxmSysqltz8vjpPXoQjBMkY5UT0P8IowVCSXbnjYbMctebeLbIlMTif8G8jQ0O6/Ovf/Mlhv8A=
-  file: dist/crs_secret_tool
+  file_glob: true
+  file: dist/*
   on:
     repo: ywyt738/crs_secret_tool
