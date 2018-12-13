@@ -36,13 +36,15 @@ class Crs_db:
     def get_secret(self):
         sql = "select app_secret from authcenter.auth where app_key='admin'"
         stdout, stderr = self._mysql_sql(sql)
-        return stdout
+        return stdout.decode()
 
-    def update_secret():
+    def update_secret(self):
         alphabet = string.ascii_letters + string.digits
         secret = ''.join(secrets.choice(alphabet) for i in range(32))
-        sql = "update authcenter.auth set app_secret='{secret}' where app_key='admin'"
-        return secret
+        sql = f"update authcenter.auth set app_secret='{secret}' where app_key='admin'"
+        stdout, stderr = self._mysql_sql(sql)
+        return sql
+
 
 if __name__ == "__main__":
     print("""1. 获取secret\n2. 重置secret""")
