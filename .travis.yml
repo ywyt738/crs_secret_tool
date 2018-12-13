@@ -1,18 +1,18 @@
 language: python
 python:
-- '3.6'
+  - "3.6"
 install:
-- pip install -r requirements.txt
+  - pip install -r requirements.txt
 before_deploy:
-- git config --local user.name "HuangXiaojun"
-- git config --local user.email "120968816@qq.com"
-- git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+  # Set up git user name and tag this commit
+  - git config --local user.name "HuangXiaojun"
+  - git config --local user.email "120968816@qq.com"
+  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 script:
-- pyinstaller -F crs_secret_tool.py
+  - pyinstaller -F crs_secret_tool.py
 deploy:
   provider: releases
   api_key:
-    secure: QGPDG9iioErAfWgBj+HuYFW2eBaCR28f2o2EGLfCJDQ9y/oJgCarYMDoQI+FOPPt8OxSIstZN3XWVdp21Wev9XmyCVfiv5ly0DHfsvMCcNjme/Zr5fFgdqQgDmYjllQQECBjVPF8LVmnel3f5KVsCxHuxbjZWN+jo+mH95E50w3whPEzOrWdmJGN/QRHFBhjvZFp1x+faorBwIMk0l7C3REAWjRexTHDV7cBroEBSxTG1nLzCKux80amhCQdBC/h0gJJK9YB0oggPs5GE7Zmmq1XTHY2c4xux6xdUwWEF11JhXXltRjpVBTzmqwugrFBDriBzXVbv6F0LH8I969NJhwp50rHSgujwFrf6amUoEd6MGjvf5hJEQ6qNTMh5aBXh3cj7mjGstn1wbgChUopZpiEFWJmiP/anP6ubqWAgcWazPj1EXo94rI6gszYo6q5A5PtFO0G8PqtQjjH8yB01rrGfkghxnXGnSnJOc1yYT8i5Yn1G+aF+my+zoDlvWUkzdkFIAZ12ii1Fim9YOqOk6mas5/jFHIZgqtnaX+ob5M5m+maRDDoxrYNPVhEulDWEG/MzmaE/mM393RqdhTLvoDbtoBOhdue3tN+UAW8m+92F1HvBS0dF0WqbYWlQb/18YHboTuGzyAVE/y6EOBVaJLBpH/WHRicOfJ0rKncVxg=
-  file: dist/*
-  on:
-    repo: ywyt738/crs_secret_tool
+    secure: aw6F8JKYvEKBNHt4OrQz/q/nIHRnzfpwvp3pjP0Jr70LF47OjUUdQpHsSXNjoDGXt1H2BokOtIebgb4uPYY0kpactKdiwuxlwdVc2tBnLxLsXHrJ1fI8LKzm1cpjbmlSZqTUWIWaaugoHsQduqA/s/VF0tAkaxvF+HI7DLSulSOkfo8zfplt+OGcDQ2VO3BTDSrP3vbv8xb7NT8FtsMtA9658gPJWmh7iv9jhUSAjX1GDAV8HwXVsn4VILCqnxDQLezqmvFjtqUPvOcu37oyNo5WeTYfVGMfWKZTpQJTJf8WjbAbUFl8JdzGMOsZTf1t/RTxQ3kGwcdVjVN3J5thddwSLx0Ib3i2YvAiCe2ZuDo8oeBBlGw8lOLWowq9nNkL8xp12RNdtTGivAQJ9jkhkErRh5/5EVAhPYAoOtz+H0YAWvQ2jcBN/aBrQNzEPDB/7GJuii/iz14udOFau8cmkteMqJqg3NL7iWXdp3bb8N07IFvo7lu67OhFpdawsg1o+1QtFcGoxY3+li1+FfStbfAKnHkvZUFCYrOpwuJbfRq+10rk1X60si9pJtgD9HSlS0guQXoVJyBiEumJ7lrwNdk7sMfE42ILeLkWzhFk3fUpbPVArmrB+bgqlawNHcJUxzqjZ/U0AMK5JH1VeWxm4qNaSIC/3nrdA037/WL9aZ8=
+  file: dist/crs_secret_tool
+  skip_cleanup: true
