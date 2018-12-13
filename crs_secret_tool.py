@@ -27,7 +27,9 @@ class Crs_db:
             stderr=subprocess.PIPE,
         )
         stdout, stderr = p.communicate()
-        return stdout, stderr
+        if p.returncode != 0:
+            raise ValueError
+        return stdout
 
     def _mysql_sql(self, sql):
         sql_command = f'mysql -u{ self.username } -p{ self.password } -h { self.ip } -P {self.port } -N -s -e "{ sql }"'
@@ -35,14 +37,14 @@ class Crs_db:
 
     def get_secret(self):
         sql = "select app_secret from authcenter.auth where app_key='admin'"
-        stdout, stderr = self._mysql_sql(sql)
+        stdout = self._mysql_sql(sql)
         return stdout.decode()
 
     def update_secret(self):
         alphabet = string.ascii_letters + string.digits
         secret = ''.join(secrets.choice(alphabet) for i in range(32))
         sql = f"update authcenter.auth set app_secret='{secret}' where app_key='admin'"
-        stdout, stderr = self._mysql_sql(sql)
+        self._mysql_sql(sql)
         return secret
 
 
@@ -55,8 +57,11 @@ if __name__ == "__main__":
     username = input("请输入数据库用户名:")
     password = getpass.getpass("请输入数据库密码:")
     db = Crs_db(username, password)
-
-    if action == "1":
-        print(db.get_secret())
-    else:
-        print(db.update_secret())
+    try:
+        if action == "1":
+            print(db.get_secret())
+        else:
+            print(db.update_secret())
+    except ValueError:
+        print("账号密码错误!")
+        exit(1)
