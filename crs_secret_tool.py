@@ -43,7 +43,7 @@ class Crs_db:
         secret = ''.join(secrets.choice(alphabet) for i in range(32))
         sql = f"update authcenter.auth set app_secret='{secret}' where app_key='admin'"
         stdout, stderr = self._mysql_sql(sql)
-        return sql
+        return secret
 
 
 if __name__ == "__main__":
