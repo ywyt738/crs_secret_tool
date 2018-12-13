@@ -3,6 +3,7 @@ import secrets
 import shlex
 import string
 import subprocess
+import sys
 
 
 """
@@ -53,7 +54,7 @@ if __name__ == "__main__":
     action = input("请输入:").strip()
     if action not in ("1", "2"):
         print("输入错误！")
-        exit(1)
+        sys.exit(1)
     username = input("请输入数据库用户名:")
     password = getpass.getpass("请输入数据库密码:")
     db = Crs_db(username, password)
@@ -64,4 +65,4 @@ if __name__ == "__main__":
             print(db.update_secret())
     except ValueError:
         print("账号密码错误!")
-        exit(1)
+        sys.exit(1)
