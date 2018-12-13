@@ -1,18 +1,18 @@
 language: python
 python:
-  - "3.6"
+- '3.6'
 install:
-  - pip install -r requirements.txt
+- pip install -r requirements.txt
 before_deploy:
-  # Set up git user name and tag this commit
-  - git config --local user.name "HuangXiaojun"
-  - git config --local user.email "120968816@qq.com"
-  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+- git config --local user.name "HuangXiaojun"
+- git config --local user.email "120968816@qq.com"
+- git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 script:
-  - pyinstaller -F crs_secret_tool.py
+- pyinstaller -F crs_secret_tool.py
 deploy:
   provider: releases
-  api_key:
-    secure: 5dd03cac13e48a7b47ad47a2fd4c1447ebad19ea
+  user: ywyt738
+  password:
+    secure: e/FBNX1nXV5e+R++S3hNyBpJ+dYEmby21FwMmLu15lUgIO1J/5KJJORRafrgToP+BHFKuKodjO08izdmBKxl++7w83YUXt8MExCYe3tj4UI2q1HhItVFRb+vWrPwiBXdBMAwmtbJMgDw/9CzIBJcTTxtE5ePNeXLazGcCHvxTyRDBswx9kbNJgSyFYpEhlCu4iY0aultQktbWnhSbrTMDnc3Kq4W8XA6SA0vmi+UiaSpfUZlvqDD69aEvuVIYqc1uT9uSAwG9qzz0uxClCpGMA9xzJd5qVpyx/5NCx9YOsY/f+iuPqOg5JlLy8ZHnGF6X8+3iC1fIFm5/Lr49Uy7T52qT93yb0rsJVo1XJJyq4bjiV4KO2UzTChVzwkzI0CCdeSGtOq6acdQ4wSuk9yK2VVlc5ldw85nE5QuI+fF8hPTufW4v2B3FkXrY96WnXQEZucors91e5ZVM4Gv6+cV4rX16A2at7TJXeuUcoK+fHm0ayZl12WuhAyKZ7My78iP7OzfzKmaVulgw9s2GoinlkGQ0j0qo06PJwasiJK2nRemUaLB6nF4HIDew1K9CLilKZbBKLNWixgbwuoCrTqUHkRTFyjAdBGr56RbGfsCU/cy1Zi7CUrWbSnZRe/Vd95zF13qrOQNL3uUPMRCOmRuPQQRD6NKQ3l5YGn5fNoxMYQ=
   file: dist/crs_secret_tool
   skip_cleanup: true
