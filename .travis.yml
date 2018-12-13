@@ -3,16 +3,16 @@ python:
 - '3.6'
 install:
 - pip install -r requirements.txt
+script:
+- pyinstaller -F crs_secret_tool.py
 before_deploy:
 - git config --local user.name "HuangXiaojun"
 - git config --local user.email "120968816@qq.com"
 - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
-script:
-- pyinstaller -F crs_secret_tool.py
 deploy:
   provider: releases
   api_key:
-    secure: b+be3hkt/eaEKEvmsd9OdDFCOTYLNVN0QyPEff5eJfvLogsnnqjPaVVr5d3FnaihYzjk5PmLpxt8UrRwspPiShP+J12LL3NlpjIGzdGV7Uu9qP9N8kKC5Bpi2yHdsW+1c+CbkMqsgYt3wWud3VP7B0YbIc23cSnBgC/tJayhmDdQU7Os/Neg9YbD6metYpk2FI1qJAi9TuXHDpWWh6JYgVGsBj5zb4cl6q54P3pUR5DoALj33WKQRS0jNxeF5jYYj6vZMLHhW91352lnayyWKMQ6pdyI8lHIFmVOMXlJ4kn3j74XFThWxbfzjPthtWJwnyR5EtPaWLTvo5wcCfbDz1w3JEhO+xQSa+2WWpr5tZ+tk+Uh0neXf3WgZGxdtf/zGOV5Zy9siKsxGBg5yv+Ndpz2jlvnJ4mtbi39fZLoNoxpmJ+DnD1Ed4IUqJfxTkdrUScRgmH+4TPs6vNEXE9SuHVdjIVkH82A+WtrreD8Oh8R79IQU12TQtQ0+6mZiqX13fggEdhuE1uXinOdYjaDrcebmhhc2M1HJMFAGZHCSrscPESxOvC076v9G68YYlmUoOzGwP+t3mKGw2lt2Vh7ptUAmWvNM11FRXtzXI3sHCxy0xgARJcy7G2PxrdxLWzSdNrI91adt/qEHKn7e/EFmK/27OFl3gwL8EzTRd4e0/A=
+    secure: scn0JDgJcYCSWy0Yg2qZeKa29yn6UI0wDFbOMrdYm5smHQXGBw+rf9TGPH0i5nW9cIAAEcepipJeCcFWi/4m6VVSdsDeGWt10QZsPMQ+TgNYrL2nk8cS13Qa1n8uyjSiLj5mMeZqWqh4Vkw7Wn5Atx9z3EwGSsaGQVpLGJ0JWPYH1snO8XbAfZJxfYd3PejkRuSwFqzDm4VGDfDtS636NuLI0pSjy0TYMxxhJ48oLKOJqGIvKB77OgexR/hWRZO6RFXCDgFX1mecmAeY5tiOFqcARj0wT5yh5647bG51Q+NDq8aoO+sLuVvoPX70eyYbHQnRZmFeqvOzd5XxHeEz6v4YjfgKcln+79a+o6ZAna/ZghpdSLXsmQs8cu6adOxIRd96z0fwmAdSjXk2MnkpGoIIUdmxusP+7u/Vs937q8PLC7HSaOpQDpLYrYXo74M0VuVQXk9YQwvrFKxecl1gMoZubTIXAxmGNHLG0pjH1Oxn8uyOJXo49MgsB00i7u41hO2fk1jPG0PL8niBhCh/dykFERefeyUKbKG0cBOPflZUREGg81PndSZpH/v5S3S4fGD0F6itUTsrhEFABSPNj80HBQQAvo7JK8WWxTN/8c5nhyvbJg8KNqRL7ymZKg4PIIs6q+4SN9YapOfPZRa+7o+596tXofFoM/E4DBw2OGU=
   file: dist/crs_secret_tool
   skip_cleanup: true
   on:
