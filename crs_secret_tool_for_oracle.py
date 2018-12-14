@@ -33,38 +33,35 @@ class Crs_db:
 
     def _oracle_sql(self, sql):
         sql_login_command = f"""sqlplus -S { self.username }/{ self.password }@{ self.ip }:{ self.port }/{ self.service }"""
-        p1 = subprocess.Popen(shlex.split(f"echo '{sql}'"), stdout=subprocess.PIPE)
-        p2 = subprocess.Popen(
+        p = subprocess.Popen(
             shlex.split(sql_login_command),
-            stdin=p1.stdout,
+            stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
-        if p2.returncode != 0:
-            raise ValueError(p2.stderr.read().decode())
+        p.stdin.write(sql.encode())
+        stdout, stderr = p.communicate()
+        if p.returncode != 0:
+            raise ValueError(stderr.decode())
         else:
-            stdout = p2.stdout.decode()
-            p1.communicate()
-            p2.communicate()
-            return stdout
+            return stdout.decode().strip().split('\n')[-1]
 
     def get_secret(self):
-        sql = """SELECT "app_secret" FROM AUTH WHERE "app_key" = 'admin';"""
+        sql = '''SELECT "app_secret" FROM AUTH WHERE "app_key" = 'admin';'''
         stdout = self._oracle_sql(sql)
         return stdout
 
     def update_secret(self):
         alphabet = string.ascii_letters + string.digits
         secret = "".join(secrets.choice(alphabet) for i in range(32))
-        sql = f"""UPDATE "auth" SET "app_secret" = '{ secret }' WHERE "app_key" = 'admin'"""
-        self._mysql_sql(sql)
+        sql = f"""UPDATE "AUTH" SET "app_secret" = '{ secret }' WHERE "app_key" = 'admin';"""
+        self._oracle_sql(sql)
         return secret
 
 
 if __name__ == "__main__":
     check_oracle_client()
 
-    print("""1. 获取secret\n2. 重置secret""")
     action = input("请输入:").strip()
     if action not in ("1", "2"):
         print("输入错误！")
@@ -74,14 +71,14 @@ if __name__ == "__main__":
     service = input("请输入数据库service:")
     username = input("请输入数据库用户名[root]:") or "root"
     password = getpass.getpass("请输入数据库密码:")
-
+    print(ip, port, service, username, password)
     db = Crs_db(username, password, service, ip, port)
 
     try:
         if action == "1":
-            print(db.get_secret())
+            print(f"secret: {db.get_secret() }")
         else:
-            print(db.update_secret())
+            print(f"secret: { db.update_secret() }")
     except ValueError as e:
         print(e)
         print("输入信息错误!")
