@@ -41,7 +41,7 @@ class Crs_db:
             stderr=subprocess.PIPE,
         )
         if p2.returncode != 0:
-            raise ValueError(p2.stderr.decode())
+            raise ValueError(p2.stderr.read().decode())
         else:
             stdout = p2.stdout.decode()
             p1.communicate()
