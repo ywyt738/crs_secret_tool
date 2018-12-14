@@ -37,7 +37,7 @@ class Crs_db:
         return stdout.decode()
 
     def _mysql_sql(self, sql):
-        sql_command = f"""sqlplus -s { self.username }/{ self.password }@{ self.ip }:{ self.port }/{ self.service } << EOF\n{ sql }\nEOF"""
+        sql_command = f"""sqlplus -S { self.username }/{ self.password }@{ self.ip }:{ self.port }/{ self.service } << EOF\n{ sql }\nEOF"""
         return self._execute_sql(sql_command)
 
     def get_secret(self):
