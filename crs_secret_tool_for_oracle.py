@@ -26,23 +26,22 @@ class Crs_db:
         self.port = port
         self.service = service
 
-    def _execute_sql(self, command):
-        command_seq = shlex.split(command)
-        p = subprocess.Popen(
-            command_seq, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-        )
-        stdout, stderr = p.communicate()
-        if p.returncode != 0:
-            raise ValueError(stderr.decode())
-        return stdout.decode()
-
-    def _mysql_sql(self, sql):
-        sql_command = f"""sqlplus -S { self.username }/{ self.password }@{ self.ip }:{ self.port }/{ self.service } << EOF\n{ sql }\nEOF"""
-        return self._execute_sql(sql_command)
+    def _oracle_sql(self, sql):
+        sql_command = sql
+        sql_login_command = f"""sqlplus -S { self.username }/{ self.password }@{ self.ip }:{ self.port }/{ self.service }"""
+        p1 = subprocess.Popen(shlex.split(f"echo '{sql}'"), stdout=subprocess.PIPE)
+        p2 = subprocess.Popen(shlex.split(sql_login_command), stdin=p1.stdout, stdout=subprocess.PIPE)
+        if p2.returncode != 0:
+            raise ValueError
+        else:
+            stdout = p2.stdout.decode()
+            p1.communicate()
+            p2.communicate()
+            return stdout
 
     def get_secret(self):
         sql = """SELECT "app_secret" FROM AUTH WHERE "app_key" = 'admin';"""
-        stdout = self._mysql_sql(sql)
+        stdout = self._oracle_sql(sql)
         return stdout
 
     def update_secret(self):
