@@ -62,6 +62,7 @@ class Crs_db:
 if __name__ == "__main__":
     check_oracle_client()
 
+    print("""1. 获取secret\n2. 重置secret""")
     action = input("请输入:").strip()
     if action not in ("1", "2"):
         print("输入错误！")
@@ -71,7 +72,6 @@ if __name__ == "__main__":
     service = input("请输入数据库service:")
     username = input("请输入数据库用户名[root]:") or "root"
     password = getpass.getpass("请输入数据库密码:")
-    print(ip, port, service, username, password)
     db = Crs_db(username, password, service, ip, port)
 
     try:
