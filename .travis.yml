@@ -4,7 +4,8 @@ python:
 install:
 - pip install -r requirements.txt
 script:
-- pyinstaller -F crs_secret_tool.py
+- pyinstaller -F crs_secret_tool_for_mysql.py
+- pyinstaller -F crs_secret_tool_for_oracle.py
 before_deploy:
 - git config --local user.name "HuangXiaojun"
 - git config --local user.email "120968816@qq.com"
