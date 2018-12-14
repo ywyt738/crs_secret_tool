@@ -37,18 +37,18 @@ class Crs_db:
         return stdout.decode()
 
     def _mysql_sql(self, sql):
-        sql_command = f'echo -e "{ sql }"|sqlplus -s { self.username }/{ self.password }@{ self.ip }:{ self.port }/{ self.service }'
+        sql_command = f"""sqlplus -s { self.username }/{ self.password }@{ self.ip }:{ self.port }/{ self.service } << EOF\n{ sql }\nEOF"""
         return self._execute_sql(sql_command)
 
     def get_secret(self):
-        sql = r"""SELECT \"app_secret\" FROM EASYAR_CRS WHERE \"app_key\" = 'admin';"""
+        sql = """SELECT "app_secret" FROM AUTH WHERE "app_key" = 'admin';"""
         stdout = self._mysql_sql(sql)
         return stdout
 
     def update_secret(self):
         alphabet = string.ascii_letters + string.digits
         secret = "".join(secrets.choice(alphabet) for i in range(32))
-        sql = f"update authcenter.auth set app_secret='{secret}' where app_key='admin'"
+        sql = f"""UPDATE "auth" SET "app_secret" = '{ secret }' WHERE "app_key" = 'admin'"""
         self._mysql_sql(sql)
         return secret
 
