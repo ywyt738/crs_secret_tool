@@ -10,12 +10,19 @@ import sys
 CRS secret获取、更新工具Linux版本
 """
 
+
 def check_mysql_client():
-    p = subprocess.Popen(shlex.split("mysql --versoin"), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    p.communicate()
-    if p.returncode != 0:
+    try:
+        p = subprocess.Popen(
+            shlex.split("mysql --versoin"),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+    except Exception:
         print("缺少mysql客户端!")
         sys.exit(1)
+    else:
+        p.communicate()
 
 
 class Crs_db:
@@ -54,7 +61,7 @@ class Crs_db:
 
 if __name__ == "__main__":
     check_mysql_client()
-    
+
     print("""1. 获取secret\n2. 重置secret""")
     action = input("请输入:").strip()
     if action not in ("1", "2"):

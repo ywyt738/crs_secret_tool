@@ -10,12 +10,17 @@ import sys
 CRS secret获取、更新工具Linux版本
 """
 
+
 def check_oracle_client():
-    p = subprocess.Popen(shlex.split("sqlplus -V"), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    p.communicate()
-    if p.returncode != 0:
+    try:
+        p = subprocess.Popen(
+            shlex.split("sqlplus -V"), stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+    except Exception:
         print("缺少sqlplus!")
         sys.exit(1)
+    else:
+        p.communicate()
 
 
 class Crs_db:
@@ -27,12 +32,16 @@ class Crs_db:
         self.service = service
 
     def _oracle_sql(self, sql):
-        sql_command = sql
         sql_login_command = f"""sqlplus -S { self.username }/{ self.password }@{ self.ip }:{ self.port }/{ self.service }"""
         p1 = subprocess.Popen(shlex.split(f"echo '{sql}'"), stdout=subprocess.PIPE)
-        p2 = subprocess.Popen(shlex.split(sql_login_command), stdin=p1.stdout, stdout=subprocess.PIPE)
+        p2 = subprocess.Popen(
+            shlex.split(sql_login_command),
+            stdin=p1.stdout,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
         if p2.returncode != 0:
-            raise ValueError
+            raise ValueError(p2.stderr.decode())
         else:
             stdout = p2.stdout.decode()
             p1.communicate()
@@ -54,7 +63,7 @@ class Crs_db:
 
 if __name__ == "__main__":
     check_oracle_client()
-    
+
     print("""1. 获取secret\n2. 重置secret""")
     action = input("请输入:").strip()
     if action not in ("1", "2"):
